@@ -31,9 +31,16 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Regresar</a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+<script>$(document).ready(function () {
+        if ($("#operacion").val() == "leer") {
+
+            $("form").find("input, select").attr("disabled", true);
+        }
+    });</script>
 }

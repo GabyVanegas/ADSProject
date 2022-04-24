@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace ADSProject.Controllers
 {
-    public class EstudianteController : Controller
+    public class GrupoController : Controller
     {
-        private readonly IEstudianteRepository estudianteRepository;
+        private readonly IGrupoRepository grupoRepository;
 
-        public EstudianteController(IEstudianteRepository estudianteRepository)
+        public GrupoController(IGrupoRepository grupoRepository)
         {
-            this.estudianteRepository = estudianteRepository;
+            this.grupoRepository = grupoRepository;
         }
 
         [HttpGet]
@@ -23,7 +23,7 @@ namespace ADSProject.Controllers
         {
             try
             {
-                var item = estudianteRepository.obtenerEstudiantes();
+                var item = grupoRepository.obtenerGrupo();
 
                 return View(item);
             }
@@ -32,24 +32,24 @@ namespace ADSProject.Controllers
 
                 throw;
             }
-           
+
         }
 
         [HttpGet]
-        public IActionResult Form(int? idEstudiante, Operaciones operaciones)
+        public IActionResult Form(int? idGrupo, Operaciones operaciones)
         {
             try
             {
-                var estudiante = new EstudianteViewModel();
+                var grupos = new GrupoViewModel();
 
-                if (idEstudiante.HasValue)
+                if (idGrupo.HasValue)
                 {
-                    estudiante = estudianteRepository.obtenerEstudiantePorID(idEstudiante.Value);
+                    grupos = grupoRepository.obtenerGrupoPorID(idGrupo.Value);
                 }
                 // Indica el tipo de operacion que es esta realizando
                 ViewData["Operaciones"] = operaciones;
 
-                return View(estudiante);
+                return View(grupos);
 
             }
             catch (Exception)
@@ -60,17 +60,18 @@ namespace ADSProject.Controllers
         }
 
         [HttpPost]
-        public IActionResult Form(EstudianteViewModel estudianteViewModel)
+        public IActionResult Form(GrupoViewModel grupoViewModel)
         {
             try
             {
-                if(estudianteViewModel.idEstudiante == 0) // En caso de insertar
+                if (grupoViewModel.idGrupo == 0) // En caso de insertar
                 {
-                    estudianteRepository.agregarEstudiante(estudianteViewModel);
-                } else // En caso de actualizar
+                    grupoRepository.agregarGrupo(grupoViewModel);
+                }
+                else // En caso de actualizar
                 {
-                    estudianteRepository.actualizarEstudiante
-                        (estudianteViewModel.idEstudiante, estudianteViewModel);
+                    grupoRepository.actualizarGrupo
+                        (grupoViewModel.idGrupo, grupoViewModel);
                 }
 
                 return RedirectToAction("Index");
@@ -83,11 +84,11 @@ namespace ADSProject.Controllers
         }
 
         [HttpPost]
-        public IActionResult Delete(int idEstudiante)
+        public IActionResult Delete(int idGrupo)
         {
             try
             {
-                estudianteRepository.eliminarEstudiante(idEstudiante);
+                grupoRepository.eliminarGrupo(idGrupo);
             }
             catch (Exception)
             {

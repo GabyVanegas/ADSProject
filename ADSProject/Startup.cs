@@ -30,6 +30,7 @@ namespace ADSProject
             services.AddSingleton<IMateriaRespository, MateriaRepository>();
             services.AddSingleton<IProfesorRepository, ProfesorRepository>();
             services.AddSingleton<ICarreraRespositoy, CarreraRepository>();
+            services.AddSingleton<IGrupoRepository, GrupoRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

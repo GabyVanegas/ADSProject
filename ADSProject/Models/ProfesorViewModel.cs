@@ -10,6 +10,7 @@ namespace ADSProject.Models
     public class ProfesorViewModel
     {
         [Display(Name = "ID")]
+        [Key]
         public int idProfesor { get; set; }
 
         [Required(ErrorMessage = Constants.REQUIRED_FIELD)]
@@ -22,5 +23,6 @@ namespace ADSProject.Models
         
         [Display(Name = "Correo")]
         public string correoProfesor { get; set; }
+        public bool estado { get; set; }
     }
 }

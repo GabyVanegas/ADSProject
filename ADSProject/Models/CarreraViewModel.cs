@@ -9,7 +9,9 @@ namespace ADSProject.Models
 {
     public class CarreraViewModel
     {
+       
         [Display(Name = "ID")]
+        [Key]
         public int idCarrera { get; set; }
 
         [Required(ErrorMessage = Constants.REQUIRED_FIELD)]
@@ -19,6 +21,6 @@ namespace ADSProject.Models
 
         [Display(Name = "Nombre")]
         public string nombreCarrera { get; set; }
-        
+        public bool estado { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using ADSProject.Models;
+﻿using ADSProject.Data;
+using ADSProject.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,21 +9,22 @@ namespace ADSProject.Repository
 {
     public class ProfesorRepository : IProfesorRepository
     {
-        private readonly List<ProfesorViewModel> lstProfesores;
-
-        public ProfesorRepository() {
-            lstProfesores = new List<ProfesorViewModel>
+        //private readonly List<ProfesorViewModel> lstProfesores;
+        private readonly ApplicationDbContext applicationDbContext;
+        public ProfesorRepository(ApplicationDbContext applicationDbContext) {
+            /*lstProfesores = new List<ProfesorViewModel>
             {
                 new ProfesorViewModel{ idProfesor = 1,  nombresProfesor= "Federico", apellidosProfesor = "Hernandez",
                      correoProfesor = "Fede@usonsonate.edu.sv"}
-            };
+            };*/
+            this.applicationDbContext = applicationDbContext;
         }
 
         public int agregarProfesor(ProfesorViewModel profesorViewModel)
         {
             try
             {
-                if (lstProfesores.Count > 0)
+                /*if (lstProfesores.Count > 0)
                 {
                     profesorViewModel.idProfesor = lstProfesores.Last().idProfesor + 1;
                 }
@@ -30,7 +32,9 @@ namespace ADSProject.Repository
                 {
                     profesorViewModel.idProfesor = 1;
                 }
-                lstProfesores.Add(profesorViewModel);
+                lstProfesores.Add(profesorViewModel);*/
+                applicationDbContext.Profesores.Add(profesorViewModel);
+                applicationDbContext.SaveChanges();
                 return profesorViewModel.idProfesor;
             }
             catch (Exception)
@@ -44,7 +48,12 @@ namespace ADSProject.Repository
         {
             try
             {
-                lstProfesores[lstProfesores.FindIndex(x => x.idProfesor == idProfesor)] = profesorViewModel;
+                //lstProfesores[lstProfesores.FindIndex(x => x.idProfesor == idProfesor)] = profesorViewModel;
+                var item = applicationDbContext.Profesores.SingleOrDefault(x => x.idProfesor == idProfesor);
+
+                applicationDbContext.Entry(item).CurrentValues.SetValues(profesorViewModel);
+
+                applicationDbContext.SaveChanges();
                 return profesorViewModel.idProfesor;
             }
             catch (Exception)
@@ -60,7 +69,15 @@ namespace ADSProject.Repository
         {
             try
             {
-                lstProfesores.RemoveAt(lstProfesores.FindIndex(x => x.idProfesor == idProfesor));
+                //lstProfesores.RemoveAt(lstProfesores.FindIndex(x => x.idProfesor == idProfesor));
+                var item = applicationDbContext.Profesores.SingleOrDefault(x => x.idProfesor == idProfesor);
+                item.estado = false;
+
+                applicationDbContext.Attach(item);
+
+                applicationDbContext.Entry(item).Property(x => x.estado).IsModified = true;
+
+                applicationDbContext.SaveChanges();
                 return true;
             }
             catch (Exception)
@@ -74,7 +91,7 @@ namespace ADSProject.Repository
         {
             try
             {
-                return lstProfesores;
+                return applicationDbContext.Profesores.Where(x => x.estado == true).ToList();
             }
             catch (Exception)
             {
@@ -87,7 +104,9 @@ namespace ADSProject.Repository
         {
             try
             {
-                var item = lstProfesores.Find(x => x.idProfesor == idProfesor);
+                //var item = lstProfesores.Find(x => x.idProfesor == idProfesor);
+                var item = applicationDbContext.Profesores.SingleOrDefault(x => x.idProfesor == idProfesor);
+
                 return item;
             }
             catch (Exception)

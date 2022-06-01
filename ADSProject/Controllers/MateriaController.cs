@@ -2,6 +2,7 @@
 using ADSProject.Repository;
 using ADSProject.Utils;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +14,13 @@ namespace ADSProject.Controllers
     {
         private readonly IMateriaRespository materiaRepository;
         private readonly ICarreraRespositoy carreraRepository;
-        public MateriaController(IMateriaRespository materiaRespository, ICarreraRespositoy carreraRespositoy)
+        private readonly ILogger<MateriaController> logger;
+        public MateriaController(IMateriaRespository materiaRespository, ICarreraRespositoy carreraRespositoy,
+            ILogger<MateriaController> logger)
         {
             this.materiaRepository = materiaRespository;
             this.carreraRepository = carreraRespositoy;
+            this.logger = logger;
         }
 
         [HttpGet]
@@ -29,9 +33,9 @@ namespace ADSProject.Controllers
 
                 return View(item);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                logger.LogError("Error en metodo index de controlador materia", ex.Message);
                 throw;
             }
 

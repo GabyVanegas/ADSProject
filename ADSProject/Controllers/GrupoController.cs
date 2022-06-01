@@ -1,6 +1,7 @@
 ﻿using ADSProject.Models;
 using ADSProject.Repository;
 using ADSProject.Utils;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -111,6 +112,15 @@ namespace ADSProject.Controllers
             }
 
             return RedirectToAction("Index");
+        }
+        [HttpGet]
+        public IActionResult cargarMaterias(int? idCarrera)
+        {
+            var listadoCarreras = idCarrera == null ? new List<MateriaViewModel>() :
+
+            materiaRepository.obtenerMateria().Where(x => x.idCarrera == idCarrera);
+
+            return StatusCode(StatusCodes.Status200OK, listadoCarreras);
         }
     }
 }

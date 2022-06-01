@@ -3,6 +3,7 @@ using ADSProject.Repository;
 using ADSProject.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,14 +17,15 @@ namespace ADSProject.Controllers
         private readonly ICarreraRespositoy carreraRepository;
         private readonly IMateriaRespository materiaRepository;
         private readonly IProfesorRepository profesorRepository;
-
+        private readonly ILogger<GrupoController> logger;
         public GrupoController(IGrupoRepository grupoRepository, ICarreraRespositoy carreraRespositoy, IMateriaRespository materiaRespository,
-            IProfesorRepository profesorRepository)
+            IProfesorRepository profesorRepository, ILogger<GrupoController> logger)
         {
             this.grupoRepository = grupoRepository;
             this.carreraRepository = carreraRespositoy;
             this.materiaRepository = materiaRespository;
             this.profesorRepository = profesorRepository;
+            this.logger = logger;
         }
 
         [HttpGet]
@@ -35,9 +37,9 @@ namespace ADSProject.Controllers
                 var item = grupoRepository.obtenerGrupos(new string[] { "Carreras", "Materias", "Profesores" });
                 return View(item);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                logger.LogError("Error en metodo index de controlador grupo", ex.Message);
                 throw;
             }
 

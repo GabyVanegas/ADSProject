@@ -6,16 +6,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace ADSProject.Controllers
 {
     public class ProfesorController : Controller
     {
         private readonly IProfesorRepository profesorRepository;
+        private readonly ILogger<ProfesorController> logger;
 
-        public ProfesorController(IProfesorRepository profesorRepository)
+        public ProfesorController(IProfesorRepository profesorRepository, ILogger<ProfesorController> logger)
         {
             this.profesorRepository = profesorRepository;
+            this.logger = logger;
         }
 
         [HttpGet]
@@ -27,9 +30,9 @@ namespace ADSProject.Controllers
 
                 return View(item);
             }
-            catch (Exception)
+            catch (Exception ex )
             {
-
+                logger.LogError("Error en metodo index de controlador profesor", ex.Message);
                 throw;
             }
 

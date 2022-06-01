@@ -6,16 +6,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ADSProject.Utils;
+using Microsoft.Extensions.Logging;
 
 namespace ADSProject.Controllers
 {
     public class CarreraController : Controller
     {
         private readonly ICarreraRespositoy carreraRespositoy;
-
-        public CarreraController(ICarreraRespositoy carreraRespositoy)
+        private readonly ILogger<CarreraController> logger;
+        public CarreraController(ICarreraRespositoy carreraRespositoy, ILogger<CarreraController> logger)
         {
             this.carreraRespositoy = carreraRespositoy;
+            this.logger = logger;
         }
 
         [HttpGet]
@@ -52,9 +54,9 @@ namespace ADSProject.Controllers
                 return View(carrera);
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                logger.LogError("Error en metodo index de controlador carrera", ex.Message);
                 throw;
             }
         }

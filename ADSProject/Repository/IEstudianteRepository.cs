@@ -9,7 +9,7 @@ namespace ADSProject.Repository
     public interface IEstudianteRepository
     {
         List<EstudianteViewModel> obtenerEstudiantes();
-
+        List<EstudianteViewModel> obtenerEstudiantes(string[] includes);
         int agregarEstudiante(EstudianteViewModel estudianteViewModel);
 
         int actualizarEstudiante(int idEstudiante, EstudianteViewModel estudianteViewModel);

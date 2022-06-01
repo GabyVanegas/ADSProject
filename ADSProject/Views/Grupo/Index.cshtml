@@ -51,13 +51,13 @@
                 @Html.DisplayFor(modelItem => item.idGrupo)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.idCarrera)
+                @Html.DisplayFor(modelItem => item.Carreras.nombreCarrera)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.idMateria)
+                @Html.DisplayFor(modelItem => item.Materias.nombreMateria)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.idProfesor)
+                @Html.DisplayFor(modelItem => item.Profesores.nombresProfesor)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ciclo)
@@ -77,6 +77,10 @@
                 <a class="btn btn-danger eliminar"
                    asp-route-idGrupo="@item.idGrupo"
                    asp-action="Delete">Eliminar</a>
+                <a class="btn btn-secondary"
+                   asp-route-idGrupo="@item.idGrupo"
+                   asp-action="Form"
+                   asp-controller="AsignacionGrupo">Asignar grupo</a>
             </td>
         </tr>}
     </tbody>

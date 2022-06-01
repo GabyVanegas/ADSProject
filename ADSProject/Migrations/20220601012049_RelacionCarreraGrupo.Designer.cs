@@ -3,14 +3,16 @@ using ADSProject.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ADSProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220601012049_RelacionCarreraGrupo")]
+    partial class RelacionCarreraGrupo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -104,10 +106,6 @@ namespace ADSProject.Migrations
 
                     b.HasIndex("idCarrera");
 
-                    b.HasIndex("idMateria");
-
-                    b.HasIndex("idProfesor");
-
                     b.ToTable("Grupos");
                 });
 
@@ -181,23 +179,7 @@ namespace ADSProject.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ADSProject.Models.MateriaViewModel", "Materias")
-                        .WithMany()
-                        .HasForeignKey("idMateria")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ADSProject.Models.ProfesorViewModel", "Profesores")
-                        .WithMany()
-                        .HasForeignKey("idProfesor")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Carreras");
-
-                    b.Navigation("Materias");
-
-                    b.Navigation("Profesores");
                 });
 
             modelBuilder.Entity("ADSProject.Models.MateriaViewModel", b =>
